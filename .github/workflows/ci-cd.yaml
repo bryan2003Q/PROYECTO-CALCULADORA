@@ -23,7 +23,7 @@ jobs:
       - name: Correr Pruebas
         run: pytest tests.py
 
-        name: Revisar Importaciones
+      - name: Revisar Importaciones
         run: ruff check .
 
   # --- FASE 2: ENTREGA CONTINUA (CD) ---
