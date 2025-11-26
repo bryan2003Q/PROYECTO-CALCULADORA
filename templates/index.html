@@ -2,26 +2,89 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Calculadora DevOps</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
-        input { padding: 10px; margin: 5px; }
-        button { padding: 10px 20px; background-color: #28a745; color: white; border: none; cursor: pointer; }
-        button:hover { background-color: #218838; }
-        .resultado { font-size: 24px; color: #333; margin-top: 20px; font-weight: bold; }
-    </style>
+    <title>Calculadora CI/CD</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Calculadora CI/CD</h1>
-    <form method="POST">
-        <input type="number" name="val1" placeholder="Número 1" required step="any">
-        <span>+</span>
-        <input type="number" name="val2" placeholder="Número 2" required step="any">
-        <button type="submit">Calcular</button>
-    </form>
 
-    {% if resultado is not none %}
-        <div class="resultado">Resultado: {{ resultado }}</div>
-    {% endif %}
+<div class="calculadora">
+    <h1>Calculadora CI/CD</h1>
+
+    <form method="POST" onsubmit="prepararEnvio()">
+
+        <!-- PANTALLA -->
+        <input type="text" id="pantalla" readonly
+               value="{% if resultado is not none %}{{ resultado }}{% endif %}">
+
+        <!-- CAMPOS OCULTOS -->
+        <input type="hidden" name="val1" id="val1">
+        <input type="hidden" name="val2" id="val2">
+        <input type="hidden" name="op" id="op">
+
+        <div class="botones">
+            <button type="button" onclick="limpiar()">C</button>
+            <button type="button" onclick="borrar()">⌫</button>
+
+            <button type="button" onclick="setOperacion('/')">÷</button>
+            <button type="button" onclick="setOperacion('*')">×</button>
+
+            <button type="button" onclick="agregar('7')">7</button>
+            <button type="button" onclick="agregar('8')">8</button>
+            <button type="button" onclick="agregar('9')">9</button>
+            <button type="button" onclick="setOperacion('-')">−</button>
+
+            <button type="button" onclick="agregar('4')">4</button>
+            <button type="button" onclick="agregar('5')">5</button>
+            <button type="button" onclick="agregar('6')">6</button>
+            <button type="button" onclick="setOperacion('+')">+</button>
+
+            <button type="button" onclick="agregar('1')">1</button>
+            <button type="button" onclick="agregar('2')">2</button>
+            <button type="button" onclick="agregar('3')">3</button>
+
+            <button type="button" onclick="agregar('0')">0</button>
+
+            <button class="igual" type="submit">=</button>
+        </div>
+    </form>
+</div>
+
+<script>
+let pantalla = document.getElementById("pantalla");
+let operacion = "";
+
+function agregar(valor) {
+    pantalla.value += valor;
+}
+
+function limpiar() {
+    pantalla.value = "";
+    operacion = "";
+}
+
+function borrar() {
+    pantalla.value = pantalla.value.slice(0, -1);
+}
+
+function setOperacion(op) {
+    operacion = op;
+    pantalla.value += " " + op + " ";
+}
+
+function prepararEnvio() {
+    let expresion = pantalla.value.split(" ");
+
+    document.getElementById("val1").value = expresion[0];
+    document.getElementById("val2").value = expresion[2];
+
+    switch(operacion){
+        case '+': document.getElementById("op").value = "sumar"; break;
+        case '-': document.getElementById("op").value = "restar"; break;
+        case '*': document.getElementById("op").value = "multiplicar"; break;
+        case '/': document.getElementById("op").value = "dividir"; break;
+    }
+}
+</script>
+
 </body>
 </html>
