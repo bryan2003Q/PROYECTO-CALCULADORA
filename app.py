@@ -17,5 +17,5 @@ def home():
             resultado = "Error: Ingresa números válidos"
     return render_template('index.html', resultado=resultado)
 
-if __name__ == '_main_':
+if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
