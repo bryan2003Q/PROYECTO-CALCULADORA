@@ -15,6 +15,9 @@ def dividir (a, b):
     if b == 0:
         return "Error: No se puede dividir para cero"
     return a/b 
+def raiz (a):
+    if a < 0:
+        return "Error: No se puede calcular la raíz cuadrada de un número negativo"
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
